@@ -1,4 +1,6 @@
 # a-forest-trail
+Every 10 "steps", prompt the user to "pick berries"
 
-current task list:
-On page load, initialize a users energy to 100 and display it on the right side of the DOM as "energy: 100". You may find it useful to use createElement and appendChild to create and show the element with the user's health.
+When this button is clicked, give the user a random number of berries between 1 and 10.
+Like the above steps, display how many berries a user has, but only after they have at least one berry.
+On the left side of the page, display "you picked {X} berries" every time the walk button is clicked.
