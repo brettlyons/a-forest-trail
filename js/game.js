@@ -6,7 +6,7 @@
   var walkButton = document.getElementById('walkTrailButton');
   var berriesButton;
   var playerStatus = {
-    playerEnergy: 100,
+    energy: 100,
     steps: 0
   };
   //grabs the status div
@@ -24,6 +24,7 @@
     updateDom();
    }, 16); //16.6 ms is 60 fps via dimensional analysis.
 
+
   // makes stuff happen when the walkButton is clicked.
   walkButton.addEventListener('click',
       function () { // on click, the walk button ...
@@ -32,11 +33,27 @@
           + "<p>";  // ... prints to the left div...
         walkButton.setAttribute("disabled", "true"); // ...is disabled...
         playerStatus.steps += 1; // ...updates global state ...
+        playerStatus.energy -= Number(Math.random() * 10).toFixed(0);
         setTimeout( function () {
           walkButton.removeAttribute("disabled");
         }, 300) // <-- and is re-enabled after 3 secs. //DEBUG CHANGED TO 300ms FOR TESTING
         if ( playerStatus.steps % 10 === 0 && playerStatus.steps != 0 ) {
-          var berriesButton = createButton ( 'pick-berries', "middle", "pick berries" );
+          var berriesButton = createButton (
+              'pick-berries', "middle", "pick berries" );
+          //for berry eating.
+          function eatBerries() {
+              var eatBerriesButton = createButton("eat-berries",
+                  "middle", "eat berries?");
+              eatBerriesButton.addEventListener('click', function() {
+                playerStatus.berries -= 1;
+                playerStatus.energy += 2;
+                midDiv.removeChild(eatBerriesButton);
+                leftDiv.innerHTML = leftDiv.innerHTML
+                  + "You eat berries.";
+              })
+          };
+          // eatBerries check every 10s.  Buttons addin' up. . .
+          setInterval ( eatBerries, 10000 );
           berriesButton.addEventListener('click',
             function () {
               var berriesAdded = Number(Math.random() * 10).toFixed(0);
@@ -58,10 +75,20 @@
             var waterMsg = waterAdded == 1 ? "You found water." : "you didn't find any water."
             leftDiv.innerHTML = leftDiv.innerHTML + waterMsg;
           })
-
-
+          //for berry eating.
+          function drinkWater() {
+              var drinkWaterButton = createButton("drink-water",
+                  "middle", "Drink water ? ");
+              drinkWaterButton.addEventListener('click', function() {
+                playerStatus.water -= 1;
+                playerStatus.energy += 10;
+                midDiv.removeChild(drinkWaterButton);
+                leftDiv.innerHTML = leftDiv.innerHTML
+                  + "You drink water and gain energy.";
+              })
+          };
+        setInterval(drinkWater, 5000);
         }
-
       });
   // helper function creates button and returns a handle to the created button
   function createButton ( id, position, displayText ) {
