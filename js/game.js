@@ -4,7 +4,6 @@
   var midDiv = document.getElementById("middle");
   var status = document.getElementById("status");
   var walkButton = document.getElementById('walkTrailButton');
-  var berriesButton;
   var playerStatus = {
     energy: 100,
     steps: 0
@@ -50,10 +49,11 @@
                 midDiv.removeChild(eatBerriesButton);
                 leftDiv.innerHTML = leftDiv.innerHTML
                   + "You eat berries.";
+              clearInterval(berriesInterval.pop());
               })
           };
           // eatBerries check every 10s.  Buttons addin' up. . .
-          setInterval ( eatBerries, 10000 );
+          var berriesInterval = setInterval ( eatBerries, 10000 );
           berriesButton.addEventListener('click',
             function () {
               var berriesAdded = Number(Math.random() * 10).toFixed(0);
@@ -75,7 +75,7 @@
             var waterMsg = waterAdded == 1 ? "You found water." : "you didn't find any water."
             leftDiv.innerHTML = leftDiv.innerHTML + waterMsg;
           })
-          //for berry eating.
+          //for water drinking.
           function drinkWater() {
               var drinkWaterButton = createButton("drink-water",
                   "middle", "Drink water ? ");
@@ -85,9 +85,11 @@
                 midDiv.removeChild(drinkWaterButton);
                 leftDiv.innerHTML = leftDiv.innerHTML
                   + "You drink water and gain energy.";
+                clearInterval(waterDrinking.pop());
               })
           };
-        setInterval(drinkWater, 5000);
+        var waterDrinking = []
+        waterDrinking.push(setInterval(drinkWater, 5000));
         }
       });
   // helper function creates button and returns a handle to the created button
