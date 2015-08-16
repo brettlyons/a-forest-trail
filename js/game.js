@@ -92,6 +92,14 @@
         waterDrinking.push(setInterval(drinkWater, 5000));
         }
       });
+  // helper function to create an event listener for the button
+  // that is also flexible enough for all of the various state changes.
+  //function mutatePlayerState ( arrOfProperties, arrOfFunctions ) {
+    //return arrOfProperties.map(arrOfFunctions);
+  //}
+
+
+
   // helper function creates button and returns a handle to the created button
   function createButton ( id, position, displayText ) {
     var newButton = document.createElement('button');
